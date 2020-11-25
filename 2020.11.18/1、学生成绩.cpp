@@ -1,82 +1,84 @@
 #include<iostream>
 using namespace std;
-struct student
+#include<string>
+
+int main()
 {
-	int num;//学号
-	float score[5];//成绩
-	float aver;//平均成绩
-};
+	void fristAver(int [4][5]);
+	void two_fail(int [4][5],string [4], int [4], float [4]);
+	void high(float [4], int [4][5], string [4],int [4]);
+	string name[4] = { "张三","李四","王五","赵六" }; //姓名
+	int num[4] = { 11,22,33,44 }; //学号
+	int scores[4][5]
+	{
+		{65,78,56,54,78},
+		{89,88,86,90,91},
+		{89,99,89,90,87},
+		{56,76,89,87,98}
+	}; //成绩
+	float aver[4];// 平均成绩
+	for (int i = 0; i < 4; i++)
+	{
+		float sum = 0.0f;
+		for (int j = 0; j < 5; j++)
+			sum += scores[i][j];
+		aver[i] = sum / 5;
+	}
+	fristAver(scores);
+	two_fail(scores, name, num, aver);
+	high(aver, scores, name, num);
+	system("pause");
+	return 0;
+}
 
 //第一门平均分
-void fristAver(student *stu)
+void fristAver(int scores[4][5])
 {
 	float f_sum = 0.0f;
-	for (int i=0;i<4;i++)
-		f_sum += stu[i].score[0];
+	for (int i = 0; i < 4; i++)
+		f_sum += scores[0][i];
 	cout << "第一门成绩的平均分为：" << f_sum / 4 << endl;
 }
 
 //两门以上课程不及格的学生
-void two_fail(student *stu)
+void two_fail(int scores[4][5], string name[4], int num[4], float aver[4])
 {
-	cout << "两门以上课程不及格的学生:"<<endl;
+	cout << endl;
+	cout << "两门以上课程不及格的学生:" << endl;
 	for (int i = 0; i < 4; i++)
 	{
 		int count = 0;
 		for (int j = 0; j < 5; j++)
 		{
-			if (stu[i].score[j] < 60)
+			if (scores[i][j] < 60)
 				count++;
 		}
 		if (count >= 2)
 		{
-			cout << "学生" << i + 1 << "：学号:" << stu[i].num << " " << "所有成绩:";
-			for (int j = 0; j < 5; j++) cout << stu[i].score[j] << " ";
-			cout << "平均成绩:" << stu[i].aver << endl;
+			cout << name[i] << "：学号:" << num[i] << " " << "所有成绩:";
+			for (int j = 0; j < 5; j++) cout << scores[i][j] << " ";
+				cout << "平均成绩:" << aver[i] << endl;
 		}
 	}
 }
 
 //平均成绩在90以上或全部课程在85分以上的学生
-void high(student* stu)
+void high(float aver[4], int scores[4][5], string name[4], int num[4])
 {
-	cout << "平均成绩在90以上或全部课程在85分以上的学生："<<endl;
+	cout << endl;
+	cout << "平均成绩在90以上或全部课程在85分以上的学生：" << endl;
 	for (int i = 0; i < 4; i++)
 	{
 		int count = 0;
-		if (stu[i].aver > 90)
-			cout << "学生" << i + 1 << "：学号：" << stu[i].num << endl;
-		else 
+		if (aver[i] > 90)
+			cout << name[i] << "：学号:"<< num[i] << endl;
+		else
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				if (stu[i].score[j] > 85)
-					count++;
+				if (scores[i][j] > 85) count++;
 			}
-			if (count == 5) cout << "学生" << i + 1 << "：学号：" << stu[i].num << endl;
+			if (count == 5) cout << name[i] << "：学号：" << num[i] << endl;
 		}
 	}
-}
-
-int main() 
-{
-	struct student stu[4];
-	for (int i = 0; i < 4; i++) 
-	{
-		cout << "学生" << i + 1 << "的学号:";
-		cin >> stu[i].num;
-		cout << "学生" << i + 1 << "的成绩:";
-		float sum = 0.0f; //总成绩
-		for (int j = 0; j < 5; j++)
-		{
-			cin >> stu[i].score[j];
-			sum += stu[i].score[j] ;
-		}
-		stu[i].aver = sum / 5;
-	}
-	fristAver(stu);
-	two_fail(stu);
-	high(stu);
-	system("pause");
-	return 0;
 }
